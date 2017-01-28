@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .margin-top20 {
+            margin-top: 20px;
+        }
+
+        .margin-top40 {
+            margin-top: 40px;
+        }
+
+        .box{
+            border: 1px solid rgb(200, 200, 200);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px 2px;
+            background: rgba(200, 200, 200, 0.5);
+            border-radius: 4px;
+            top:20px;
+        }
+
+        .filters {
+            float: left;
+        }
+
+        .padding0 {
+            padding: 0px;
+        }
+
+    </style>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="container-fluid wide">
+
+    <div class="row">
+
+        <div style="width:185px" class="box">
+            <div class="input-group padding0">
+                <span class="input-group-addon" id="search"><span class="fa fa-search"></span></span>
+                <input placeholder="keyword" type="text" class="form-control" aria-describedby="search">
+            </div>
+        </div>
+
+    <div class="col-md-2 box" style="height: 100%; margin-right: 10px;">
+        <p class="lead">Filters</p>
+        <div class="row">
+            <b>Sort by:</b>
+        </div>
+        <div class="col-md-12">
+            <input type="checkbox" id="price"/>
+            <label for="price">Price</label>
+        </div>
+        <div class="col-md-12">
+            <input type="checkbox" id="rating"/>
+            <label for="price">Rating</label>
+        </div>
+
+        <div class="col-md-12">
+            <label for="price">Price from:</label>
+            <input class="form-control" type="text" id="price-from"/>
+        </div>
+        <div class="col-md-12" style="padding-bottom: 10px;">
+            <label for="price">Price to:</label>
+            <input  class="form-control" type="text" id="price-to"/>
+        </div>
+
+    </div>
+
+        <div class="col-md-9 products" style="margin-top: 20px">
+            </p>
+                <div ng-repeat="product in products" class="col-md-4 margin-top">
+                    <img class="min-img img-round" ng-src="{{product.imageSource}}"/>
+                    <div class="row">
+                        <b>{{product.title}}</b>
+                        <div class="row">
+                            {{product.price}} {{product.currency}}
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

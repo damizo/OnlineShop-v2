@@ -1,0 +1,39 @@
+<div ng-controller="homeController">
+
+    <div class="main">
+        <div>
+            <p class="lead head">Below you can check recent products added to shop!<br>
+            </p>
+            <div class="row recent-products">
+                <div ng-repeat="product in recentProducts" class="col-md-3 margin-top">
+                    <div class="row">
+                    <img class="min-img img-round" ng-src="{{product.imageSource}}"/>
+                    <div class="row">
+                        <b>{{product.title}}</b>
+                        <div class="row">
+                            {{product.price}} {{product.currency}}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px">
+            <p class="lead head">Recommended products<br>
+            </p>
+            <div class="row recent-products">
+                <div ng-repeat="product in recommendedProducts" class="col-md-4 margin-top">
+                    <img class="min-img img-round" ng-src="{{product.imageSource}}"/>
+                    <div class="row">
+                        <b>{{product.title}}</b>
+                        <div class="row">
+                            {{product.price}} {{product.currency}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

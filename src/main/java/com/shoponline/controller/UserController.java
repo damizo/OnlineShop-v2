@@ -23,12 +23,12 @@ public class  UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<UserCredentialsDTO> createUser(@RequestBody UserCredentialsDTO userCredentialsDTO) {
-        return userService.create(userCredentialsDTO);
+        return ResponseEntity.ok(userService.create(userCredentialsDTO));
     }
 
-    @RequestMapping(value = "/authorize", method = RequestMethod.GET)
+    @RequestMapping(value = "/authorize", method = RequestMethod.POST)
     public ResponseEntity<UserCredentialsDTO> authorizeUser(@RequestBody UserCredentialsDTO userCredentialsDTO) {
-        return userService.isAuthorized(userCredentialsDTO);
+        return ResponseEntity.ok(userService.isAuthorized(userCredentialsDTO));
     }
 
 }

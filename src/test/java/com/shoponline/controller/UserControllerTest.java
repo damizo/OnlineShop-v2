@@ -1,19 +1,26 @@
 package com.shoponline.controller;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.shoponline.exception.NotAuthorizedException;
 import com.shoponline.exception.ResourceAlreadyExistsException;
 import com.shoponline.model.dto.UserCredentialsDTO;
+import com.shoponline.model.entity.Customer;
 import com.shoponline.model.entity.SuperUser;
+import com.shoponline.model.entity.User;
 import com.shoponline.model.enums.UserRole;
 import com.shoponline.repository.UserRepository;
 import com.shoponline.service.UserService;
+import com.shoponline.service.UserServiceImpl;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,6 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -34,73 +42,68 @@ import static org.mockito.Mockito.mock;
 /**
  * Created by Damian on 2017-01-20.
  */
-@RunWith(SpringRunner.class)
-@WebMvcTest(UserController.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class UserControllerTest extends BaseControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-
-    @MockBean
     private UserService userService;
 
+    @Mock
+    private UserRepository userRepository;
 
     @Before
     public void setUp() {
-        mvc = MockMvcBuilders.standaloneSetup(userController)
-                .setControllerAdvice(new ExceptionControllerAdvice())
-                .build();
+        MockitoAnnotations.initMocks(this);
+        userService = new UserServiceImpl(userRepository, messageService);
     }
 
     @Test
-    public void test_throw_not_authorized_exception() throws Exception {
-
+    public void test_user_authorization_success(){
         UserCredentialsDTO userCredentialsDTO = createRandomUserCredentialsDTO();
-        Gson gson = getGsonInstance();
+        Customer customer = new Customer();
+        customer.setUserName(userCredentialsDTO.getUserName());
+        customer.setPassword(userCredentialsDTO.getPassword());
+
+        given(this.userService.create(userCredentialsDTO)).willReturn(userCredentialsDTO);
+        given(this.userService.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
+        
+        Assert.assertEquals(this.userService.isAuthorized(userCredentialsDTO), userCredentialsDTO);
+    }
+
+    @Test(expected = NotAuthorizedException.class)
+    public void test_user_authorization_failure_not_authorized() throws Exception {
+        UserCredentialsDTO userCredentialsDTO = createRandomUserCredentialsDTO();
+        Customer customer = new Customer();
+        customer.setUserName(userCredentialsDTO.getUserName());
+        customer.setPassword(userCredentialsDTO.getPassword());
 
         given(this.userService.isAuthorized(userCredentialsDTO)).willThrow(NotAuthorizedException.class);
+        given(this.userService.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
 
-        this.mvc.perform(MockMvcRequestBuilders.get("/user/authorize")
-                .accept(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(userCredentialsDTO)))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+        Assert.assertEquals(this.userService.isAuthorized(userCredentialsDTO), userCredentialsDTO);
     }
 
     @Test
-    public void test_register_user_twice() throws Exception {
-
-        Gson gson = getGsonInstance();
+    public void test_create_user_success() throws Exception {
         UserCredentialsDTO userCredentialsDTO = createRandomUserCredentialsDTO();
+        Customer customer = new Customer();
+        customer.setUserName(userCredentialsDTO.getUserName());
+        customer.setPassword(userCredentialsDTO.getPassword());
 
-        given(this.userService.create(userCredentialsDTO)).willReturn(ResponseEntity.ok(userCredentialsDTO));
-        given(this.userService.create(userCredentialsDTO)).willThrow(ResourceAlreadyExistsException.class);
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(userCredentialsDTO)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(userCredentialsDTO)))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+        given(this.userService.create(userCredentialsDTO)).willReturn(userCredentialsDTO);
+        Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
     }
 
-    @Test
-    public void test_create_user() throws Exception {
-
-        Gson gson = getGsonInstance();
+    @Test(expected = ResourceAlreadyExistsException.class)
+    public void test_create_user_failure_already_exsists(){
         UserCredentialsDTO userCredentialsDTO = createRandomUserCredentialsDTO();
+        Customer customer = new Customer();
+        customer.setUserName(userCredentialsDTO.getUserName());
+        customer.setPassword(userCredentialsDTO.getPassword());
 
-        given(this.userService.create(userCredentialsDTO)).willReturn(ResponseEntity.ok(userCredentialsDTO));
-
-        this.mvc.perform(MockMvcRequestBuilders.post("/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(userCredentialsDTO)))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        given(this.userService.create(userCredentialsDTO)).willReturn(userCredentialsDTO);
+        given(this.userService.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
+        Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
+        Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
     }
 
     private SuperUser createSuperUser(UserCredentialsDTO userCredentialsDTO) {

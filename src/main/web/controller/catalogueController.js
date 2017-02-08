@@ -1,5 +1,6 @@
 app.controller('catalogueController', function ($scope) {
 
+    $scope.tag = "";
 
     $scope.products = [
         {
@@ -45,5 +46,12 @@ app.controller('catalogueController', function ($scope) {
             currency: "PLN"
         },
     ];
+
+    $scope.search = function () {
+       $scope.products.filter(function (item) {
+          item.title.includes($scope.tag)
+       });
+    }
+
 
 });

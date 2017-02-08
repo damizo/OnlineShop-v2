@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
  * Created by dami on 2016-12-24.
  */
 @Service
-public class BaseService  {
+public class BaseService {
 
     @Autowired
-    private MessageService messageService;
+    protected MessageService messageService;
 
     public String getMessage(String id){
         return messageService.getMessage(id);

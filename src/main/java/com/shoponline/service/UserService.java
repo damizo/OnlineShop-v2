@@ -13,11 +13,13 @@ import org.springframework.http.ResponseEntity;
  */
 public interface UserService {
 
-    ResponseEntity<User> createCustomer(Customer customer);
+    User createCustomer(Customer customer);
 
-    ResponseEntity<UserCredentialsDTO> isAuthorized(UserCredentialsDTO userCredentialsDTO);
+    UserCredentialsDTO isAuthorized(UserCredentialsDTO userCredentialsDTO);
 
-    ResponseEntity create(UserCredentialsDTO userCredentialsDTO);
+    UserCredentialsDTO create(UserCredentialsDTO userCredentialsDTO);
 
     User findByUserNameAndPassword(String userName, String password);
+
+    User saveUser(User user);
 }

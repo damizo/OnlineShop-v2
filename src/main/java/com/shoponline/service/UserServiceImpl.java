@@ -8,6 +8,8 @@ import com.shoponline.model.entity.Customer;
 import com.shoponline.model.entity.SuperUser;
 import com.shoponline.model.entity.User;
 import com.shoponline.repository.UserRepository;
+import com.shoponline.utils.CryptoUtils;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +54,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public UserCredentialsDTO create(UserCredentialsDTO userCredentialsDTO) {
 
-        User user = findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword());
+        User user = userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword());
 
         if(user != null){
             throw new ResourceAlreadyExistsException(getMessage("userAlreadyExists"));
@@ -60,6 +62,11 @@ public class UserServiceImpl extends BaseService implements UserService {
 
        switch (userCredentialsDTO.getUserRole()) {
             case SUPER_USER:
+
+                if(userCredentialsDTO.getSuperUserKey() == null || !userCredentialsDTO.getSuperUserKey().equals(CryptoUtils.SUPER_USER_KEY)){
+                    throw new NotAuthorizedException(getMessage("notAuthorized"));
+                }
+
                 user = new SuperUser();
                 break;
             case CUSTOMER:
@@ -67,22 +74,13 @@ public class UserServiceImpl extends BaseService implements UserService {
                 break;
         }
 
-        user.setPassword(userCredentialsDTO.getPassword());
+        user.setPassword(CryptoUtils.SHA256(userCredentialsDTO.getPassword()));
         user.setUserName(userCredentialsDTO.getUserName());
 
-        saveUser(user);
+        userRepository.save(user);
 
         return userCredentialsDTO;
     }
 
-    @Override
-    public User findByUserNameAndPassword(String userName, String password) {
-        return userRepository.findByUserNameAndPassword(userName, password);
-    }
 
-
-    @Override
-    public User saveUser(User user){
-        return userRepository.save(user);
-    }
 }

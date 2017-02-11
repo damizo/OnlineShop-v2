@@ -13,6 +13,7 @@ import com.shoponline.model.enums.UserRole;
 import com.shoponline.repository.UserRepository;
 import com.shoponline.service.UserService;
 import com.shoponline.service.UserServiceImpl;
+import com.shoponline.utils.CryptoUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -64,8 +66,8 @@ public class UserControllerTest extends BaseControllerTest {
         customer.setPassword(userCredentialsDTO.getPassword());
 
         given(this.userService.create(userCredentialsDTO)).willReturn(userCredentialsDTO);
-        given(this.userService.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
-        
+        given(this.userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
+
         Assert.assertEquals(this.userService.isAuthorized(userCredentialsDTO), userCredentialsDTO);
     }
 
@@ -77,7 +79,7 @@ public class UserControllerTest extends BaseControllerTest {
         customer.setPassword(userCredentialsDTO.getPassword());
 
         given(this.userService.isAuthorized(userCredentialsDTO)).willThrow(NotAuthorizedException.class);
-        given(this.userService.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
+        given(this.userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
 
         Assert.assertEquals(this.userService.isAuthorized(userCredentialsDTO), userCredentialsDTO);
     }
@@ -101,8 +103,28 @@ public class UserControllerTest extends BaseControllerTest {
         customer.setPassword(userCredentialsDTO.getPassword());
 
         given(this.userService.create(userCredentialsDTO)).willReturn(userCredentialsDTO);
-        given(this.userService.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
+        given(this.userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(customer);
         Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
+        Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
+    }
+
+    @Test(expected = NotAuthorizedException.class)
+    public void test_create_super_user_failure(){
+        UserCredentialsDTO userCredentialsDTO = createRandomUserCredentialsDTO(UserRole.SUPER_USER, null);
+        SuperUser superUser = createSuperUser(userCredentialsDTO);
+
+        given(this.userService.create(userCredentialsDTO)).willThrow(NotAuthorizedException.class);
+        given(this.userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(superUser);
+        Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
+    }
+
+    @Test(expected = NotAuthorizedException.class)
+    public void test_create_super_user_failure_wrong_key(){
+        UserCredentialsDTO userCredentialsDTO = createRandomUserCredentialsDTO(UserRole.SUPER_USER, "xXa1DSd15");
+        SuperUser superUser = createSuperUser(userCredentialsDTO);
+
+        given(this.userService.create(userCredentialsDTO)).willThrow(NotAuthorizedException.class);
+        given(this.userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword())).willReturn(superUser);
         Assert.assertEquals(this.userService.create(userCredentialsDTO), userCredentialsDTO);
     }
 
@@ -121,5 +143,14 @@ public class UserControllerTest extends BaseControllerTest {
         return userCredentialsDTO;
     }
 
+
+    private UserCredentialsDTO createRandomUserCredentialsDTO(UserRole userRole, String superUserKey) {
+        UserCredentialsDTO userCredentialsDTO = new UserCredentialsDTO();
+        userCredentialsDTO.setUserName("Test");
+        userCredentialsDTO.setPassword("GGGaaa@@4");
+        userCredentialsDTO.setUserRole(userRole);
+        userCredentialsDTO.setSuperUserKey(superUserKey);
+        return userCredentialsDTO;
+    }
 
 }

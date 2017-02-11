@@ -13,6 +13,16 @@ public class UserCredentialsDTO {
 
     private UserRole userRole;
 
+    private String superUserKey;
+
+    public String getSuperUserKey() {
+        return superUserKey;
+    }
+
+    public void setSuperUserKey(String superUserKey) {
+        this.superUserKey = superUserKey;
+    }
+
     public UserRole getUserRole() {
         return userRole;
     }

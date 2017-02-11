@@ -19,7 +19,4 @@ public interface UserService {
 
     UserCredentialsDTO create(UserCredentialsDTO userCredentialsDTO);
 
-    User findByUserNameAndPassword(String userName, String password);
-
-    User saveUser(User user);
 }

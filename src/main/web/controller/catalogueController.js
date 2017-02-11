@@ -1,6 +1,12 @@
 app.controller('catalogueController', function ($scope) {
 
     $scope.tag = "";
+    $scope.criterias = {};
+    $scope.criterias.priceSorting = false;
+    $scope.criterias.ratingSorting = false;
+    $scope.criterias.priceFrom = 0;
+    $scope.criterias.priceTo = 0;
+    $scope.error = "";
 
     $scope.products = [
         {
@@ -47,11 +53,12 @@ app.controller('catalogueController', function ($scope) {
         },
     ];
 
+    $scope.filteredProducts = $scope.products;
+
     $scope.search = function () {
-       $scope.products.filter(function (item) {
-          item.title.includes($scope.tag)
-       });
+
     }
 
 
-});
+
+    });

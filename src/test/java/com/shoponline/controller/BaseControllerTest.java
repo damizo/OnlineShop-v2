@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Created by Damian on 2017-01-21.
  */
 @Ignore
-@RunWith(SpringJUnit4ClassRunner.class)
 public class BaseControllerTest {
 
     @Mock

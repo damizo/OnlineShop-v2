@@ -13,8 +13,10 @@ import javax.persistence.*;
 @DiscriminatorColumn(name = "role")
 public abstract class User extends BaseEntity {
 
+    @Column(name = "username")
     private String userName;
 
+    @Column(name = "password")
     private String password;
 
     @Column(insertable = false, updatable = false)

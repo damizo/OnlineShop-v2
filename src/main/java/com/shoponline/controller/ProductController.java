@@ -24,4 +24,6 @@ public class ProductController {
     public ResponseEntity<ProductsDTO> getProductsByCriterias(@RequestBody ProductCriteriaDTO productCriteriaDTO){
         return null;
     }
+
+
 }

@@ -20,7 +20,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ProductsDTO> getProductsByCriterias(@RequestBody ProductCriteriaDTO productCriteriaDTO){
         return null;
     }

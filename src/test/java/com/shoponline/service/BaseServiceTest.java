@@ -1,4 +1,4 @@
-package com.shoponline.controller;
+package com.shoponline.service;
 
 import com.google.gson.Gson;
 import com.shoponline.service.MessageService;
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * Created by Damian on 2017-01-21.
  */
 @Ignore
-public class BaseControllerTest {
+public class BaseServiceTest {
 
     @Mock
     protected MessageService messageService;

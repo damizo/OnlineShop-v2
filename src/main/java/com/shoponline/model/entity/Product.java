@@ -17,6 +17,25 @@ public class Product extends BaseEntity {
     @Column(name = "reference_number")
     private String referenceNumber;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    public String getReferenceNumber() {
+        return referenceNumber;
+    }
+
+    public void setReferenceNumber(String referenceNumber) {
+        this.referenceNumber = referenceNumber;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public List<Order> getOrder() {
         return order;
     }

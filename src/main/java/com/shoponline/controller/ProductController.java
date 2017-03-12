@@ -22,7 +22,7 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ProductsDTO> getProductsByCriterias(@RequestBody ProductCriteriaDTO productCriteriaDTO){
-        return null;
+        return ResponseEntity.ok(productService.fetchProducts(productCriteriaDTO));
     }
 
 

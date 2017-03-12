@@ -1,4 +1,5 @@
 ﻿var app = angular.module('app', ['ngRoute'])
+    .constant('GET_PRODUCT_BY_CRITERIAS', 'http://localhost:8080/product')
 
 app.config(function ($routeProvider) {
     $routeProvider

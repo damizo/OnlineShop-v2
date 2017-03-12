@@ -1,6 +1,7 @@
 package com.shoponline.service;
 
 import com.shoponline.model.dto.ProductCriteriaDTO;
+import com.shoponline.model.dto.ProductDTO;
 import com.shoponline.model.dto.ProductsDTO;
 import com.shoponline.model.entity.Product;
 import com.shoponline.repository.ProductRepository;
@@ -16,6 +17,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Damian on 2017-02-10.
@@ -31,14 +35,42 @@ public class ProductServiceImpl extends QueryBuilder<Product> implements Product
     @Override
     public ProductsDTO fetchProducts(ProductCriteriaDTO productCriteriaDTO) {
         Root<Product> productRoot = getRoot();
+        Set<ProductDTO> products = new HashSet<ProductDTO>();
         ProductsDTO productsDTO = new ProductsDTO();
-        Query query = entityManager.createQuery(criteriaQuery.select(productRoot)
+
+        CriteriaQuery criterias = getCriteriaQuery(productCriteriaDTO, productRoot);
+        List<Product> filteredProducts = entityManager.createQuery(criterias).getResultList();
+
+        filteredProducts.forEach(product -> {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setPrice(product.getPrice());
+            productDTO.setQuantity(product.getQuantity());
+            productDTO.setReferenceNumber(product.getReferenceNumber());
+            productDTO.setTitle(product.getTitle());
+            products.add(productDTO);
+        });
+
+        productsDTO.setProducts(products);
+        return productsDTO;
+    }
+
+    private CriteriaQuery getCriteriaQuery(ProductCriteriaDTO productCriteriaDTO, Root<Product> productRoot) {
+        CriteriaQuery criterias = criteriaQuery.select(productRoot)
                 .where(criteriaBuilder
                         .like(productRoot.get("title"), productCriteriaDTO.getTitle()))
                 .where(criteriaBuilder
                         .greaterThan(productRoot.get("price"), productCriteriaDTO.getPriceFrom()))
                 .where(criteriaBuilder
-                        .lessThan(productRoot.get("price"), productCriteriaDTO.getPriceTo())));
-        return null;
+                        .lessThan(productRoot.get("price"), productCriteriaDTO.getPriceTo()));
+
+
+        if (productCriteriaDTO.getPriceSorting()) {
+            criterias = criterias.orderBy(criteriaBuilder.desc(productRoot.get("price")));
+        }
+
+        if (productCriteriaDTO.getRatingSorting()) {
+            criterias = criterias.orderBy(criteriaBuilder.desc(productRoot.get("rating")));
+        }
+        return criterias;
     }
 }

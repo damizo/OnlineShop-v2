@@ -42,7 +42,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Override
     public UserCredentialsDTO isAuthorized(UserCredentialsDTO userCredentialsDTO) {
-        User user = userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword());
+        User user = userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), CryptoUtils.SHA256(userCredentialsDTO.getPassword()));
 
         if (user != null) {
             return userCredentialsDTO;
@@ -54,7 +54,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public UserCredentialsDTO create(UserCredentialsDTO userCredentialsDTO) {
 
-        User user = userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), userCredentialsDTO.getPassword());
+        User user = userRepository.findByUserNameAndPassword(userCredentialsDTO.getUserName(), CryptoUtils.SHA256(userCredentialsDTO.getPassword()));
 
         if(user != null){
             throw new ResourceAlreadyExistsException(getMessage("userAlreadyExists"));

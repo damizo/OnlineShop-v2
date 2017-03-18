@@ -35,18 +35,19 @@ public class ProductServiceImpl extends QueryBuilder<Product> implements Product
     @Override
     public ProductsDTO fetchProducts(ProductCriteriaDTO productCriteriaDTO) {
         Root<Product> productRoot = getRoot();
-        Set<ProductDTO> products = new HashSet<ProductDTO>();
+        Set<ProductDTO> products = new HashSet<>();
         ProductsDTO productsDTO = new ProductsDTO();
 
-        CriteriaQuery criterias = getCriteriaQuery(productCriteriaDTO, productRoot);
-        List<Product> filteredProducts = entityManager.createQuery(criterias).getResultList();
+        CriteriaQuery criteria = getCriteriaQuery(productCriteriaDTO, productRoot);
+        List<Product> filteredProducts = entityManager.createQuery(criteria).getResultList();
 
         filteredProducts.forEach(product -> {
-            ProductDTO productDTO = new ProductDTO();
-            productDTO.setPrice(product.getPrice());
-            productDTO.setQuantity(product.getQuantity());
-            productDTO.setReferenceNumber(product.getReferenceNumber());
-            productDTO.setTitle(product.getTitle());
+            ProductDTO productDTO = new ProductDTO.ProductDTOBuilder()
+                    .price(product.getPrice())
+                    .quantity(product.getQuantity())
+                    .referenceNumber(product.getReferenceNumber())
+                    .title(product.getTitle())
+                    .build();
             products.add(productDTO);
         });
 
@@ -55,7 +56,7 @@ public class ProductServiceImpl extends QueryBuilder<Product> implements Product
     }
 
     private CriteriaQuery getCriteriaQuery(ProductCriteriaDTO productCriteriaDTO, Root<Product> productRoot) {
-        CriteriaQuery criterias = criteriaQuery.select(productRoot)
+        CriteriaQuery criteria = criteriaQuery.select(productRoot)
                 .where(criteriaBuilder
                         .like(productRoot.get("title"), productCriteriaDTO.getTitle()))
                 .where(criteriaBuilder
@@ -65,12 +66,16 @@ public class ProductServiceImpl extends QueryBuilder<Product> implements Product
 
 
         if (productCriteriaDTO.getPriceSorting()) {
-            criterias = criterias.orderBy(criteriaBuilder.desc(productRoot.get("price")));
+            criteria = criteria.orderBy(criteriaBuilder.desc(productRoot.get("price")));
         }
 
         if (productCriteriaDTO.getRatingSorting()) {
-            criterias = criterias.orderBy(criteriaBuilder.desc(productRoot.get("rating")));
+            criteria = criteria.orderBy(criteriaBuilder.desc(productRoot.get("rating")));
         }
-        return criterias;
+        return criteria;
+    }
+
+    private void som(){
+        productRepository.hashCode();
     }
 }

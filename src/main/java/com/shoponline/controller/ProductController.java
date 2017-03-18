@@ -21,7 +21,7 @@ public class ProductController {
     private ProductService productService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<ProductsDTO> getProductsByCriterias(@RequestBody ProductCriteriaDTO productCriteriaDTO){
+    public ResponseEntity<ProductsDTO> getProductsByCriteria(@RequestBody ProductCriteriaDTO productCriteriaDTO){
         return ResponseEntity.ok(productService.fetchProducts(productCriteriaDTO));
     }
 

@@ -1,5 +1,6 @@
 package com.shoponline.model.dto;
 
+import com.shoponline.model.entity.Product;
 import com.sun.org.apache.xpath.internal.operations.Equals;
 import org.apache.commons.lang.builder.EqualsBuilder;
 
@@ -48,6 +49,38 @@ public class ProductDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+   public static class ProductDTOBuilder {
+        private ProductDTO productDTO = null;
+
+        public ProductDTOBuilder(){
+            productDTO = new ProductDTO();
+        }
+
+        public ProductDTOBuilder referenceNumber(String referenceNumber){
+            productDTO.setReferenceNumber(referenceNumber);
+            return this;
+        }
+
+       public ProductDTOBuilder quantity(Integer quantity){
+           productDTO.setQuantity(quantity);
+           return this;
+       }
+
+       public ProductDTOBuilder price(BigDecimal price){
+           productDTO.setPrice(price);
+           return this;
+       }
+
+       public ProductDTOBuilder title(String title){
+           productDTO.setReferenceNumber(title);
+           return this;
+       }
+
+       public ProductDTO build(){
+           return productDTO;
+       }
     }
 
     @Override

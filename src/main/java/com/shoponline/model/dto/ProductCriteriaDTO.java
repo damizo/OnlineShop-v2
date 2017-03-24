@@ -1,11 +1,14 @@
 package com.shoponline.model.dto;
 
+import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Damian on 2017-02-10.
  */
-public class ProductCriteriaDTO {
+public class ProductCriteriaDTO implements Serializable{
 
     private Boolean priceSorting;
 

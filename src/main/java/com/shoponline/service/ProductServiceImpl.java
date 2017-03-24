@@ -5,6 +5,7 @@ import com.shoponline.model.dto.ProductDTO;
 import com.shoponline.model.dto.ProductsDTO;
 import com.shoponline.model.entity.Product;
 import com.shoponline.repository.ProductRepository;
+import com.shoponline.utils.JsonUtils;
 import org.hibernate.jpa.criteria.CriteriaBuilderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,9 @@ public class ProductServiceImpl extends QueryBuilder<Product> implements Product
     private ProductRepository productRepository;
 
     @Override
-    public ProductsDTO fetchProducts(ProductCriteriaDTO productCriteriaDTO) {
+    public ProductsDTO fetchProducts(String encodedJson) {
+        ProductCriteriaDTO productCriteriaDTO = JsonUtils.decodeBase64(encodedJson);
+
         Root<Product> productRoot = getRoot();
         Set<ProductDTO> products = new HashSet<>();
         ProductsDTO productsDTO = new ProductsDTO();
@@ -73,9 +76,5 @@ public class ProductServiceImpl extends QueryBuilder<Product> implements Product
             criteria = criteria.orderBy(criteriaBuilder.desc(productRoot.get("rating")));
         }
         return criteria;
-    }
-
-    private void som(){
-        productRepository.hashCode();
     }
 }

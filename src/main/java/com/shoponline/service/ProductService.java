@@ -12,6 +12,6 @@ import javax.transaction.Transactional;
  */
 public interface ProductService {
 
-    ProductsDTO fetchProducts(ProductCriteriaDTO productCriteriaDTO);
+    ProductsDTO fetchProducts(String encodedJson);
 
 }

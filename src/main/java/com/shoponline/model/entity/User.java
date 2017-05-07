@@ -1,6 +1,10 @@
 package com.shoponline.model.entity;
 
 import com.shoponline.model.enums.UserRole;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,6 +15,7 @@ import javax.persistence.*;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role")
+@Data
 public abstract class User extends BaseEntity {
 
     @Column(name = "username")
@@ -21,29 +26,7 @@ public abstract class User extends BaseEntity {
 
     @Column(insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
+    @Setter(AccessLevel.NONE)
     private UserRole role;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
 }

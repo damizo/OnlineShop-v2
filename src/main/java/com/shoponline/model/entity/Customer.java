@@ -1,5 +1,9 @@
 package com.shoponline.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,6 +14,9 @@ import java.util.Set;
  */
 @Entity
 @DiscriminatorValue(value= "CUSTOMER")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer extends User{
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
@@ -24,35 +31,5 @@ public class Customer extends User{
     @Column(name = "address")
     private String address;
 
-    public Set<Order> getOrders() {
-        return orders;
-    }
 
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

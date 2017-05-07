@@ -1,54 +1,29 @@
 package com.shoponline.model.dto;
 
 import com.shoponline.model.enums.UserRole;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by dami on 2016-12-24.
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserCredentialsDTO {
 
-    private String userName;
+    @NotNull
+    private String email;
 
+    @NotNull
     private String password;
 
-    private UserRole userRole;
+    @Builder.Default
+    private UserRole userRole = UserRole.CUSTOMER;
 
     private String superUserKey;
-
-    public String getSuperUserKey() {
-        return superUserKey;
-    }
-
-    public void setSuperUserKey(String superUserKey) {
-        this.superUserKey = superUserKey;
-    }
-
-    public UserRole getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String toString(){
-        return "username - " + userName + ", password - " + password + ", role - " + userRole.name();
-    }
 }

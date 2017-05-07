@@ -1,5 +1,6 @@
 package com.shoponline.exception;
 
+import com.shoponline.model.dto.StatusDTO;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -11,5 +12,5 @@ public abstract class BaseException extends RuntimeException {
         super(message);
     }
 
-    public abstract ResponseEntity<String> getResponse();
+    public abstract ResponseEntity<StatusDTO> getResponse();
 }

@@ -42,7 +42,7 @@
         <div style="width:185px" class="box">
             <div class="input-group padding0">
                 <span class="input-group-addon" id="search"><span class="fa fa-search"></span></span>
-                <input ng-model="tag" ng-change="search()" (placeholder="keyword" type="text" class="form-control" aria-describedby="search">
+                <input ng-model="criterias.title" ng-change="search()" (placeholder="keyword" type="text" class="form-control" aria-describedby="search">
             </div>
         </div>
 
@@ -52,21 +52,21 @@
             <b>Sort by:</b>
         </div>
         <div class="col-md-12">
-            <input type="checkbox" ng-model="criterias.priceSorting" id="price"/>
+            <input type="checkbox" ng-click="search()" ng-model="criterias.priceSorting" id="price"/>
             <label for="price">Price</label>
         </div>
         <div class="col-md-12">
-            <input type="checkbox" ng-model="criterias.ratingSorting" id="rating"/>
+            <input type="checkbox" ng-click="search()" ng-model="criterias.ratingSorting" id="rating"/>
             <label for="price">Rating</label>
         </div>
 
         <div class="col-md-12">
             <label for="price">Price from:</label>
-            <input ng-model="criterias.priceFrom" class="form-control" type="text" id="price-from"/>
+            <input ng-keyup="search()" ng-model="criterias.priceFrom" class="form-control" type="text" id="price-from"/>
         </div>
         <div class="col-md-12" style="padding-bottom: 10px;">
             <label for="price">Price to:</label>
-            <input ng-model="criterias.priceTo" class="form-control" type="text" id="price-to"/>
+            <input ng-keyup="search()" ng-model="criterias.priceTo" class="form-control" type="text" id="price-to"/>
         </div>
         <div class="red">
             {{error}}

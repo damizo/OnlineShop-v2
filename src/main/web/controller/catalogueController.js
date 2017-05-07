@@ -1,14 +1,14 @@
-app.controller('catalogueController', function ($scope) {
+app.controller('catalogueController', function ($scope, $http, GET_PRODUCT_BY_CRITERIAS, GET_OR_CREATE_PRODUCTS) {
 
-    $scope.tag = "";
     $scope.criterias = {};
     $scope.criterias.priceSorting = false;
     $scope.criterias.ratingSorting = false;
     $scope.criterias.priceFrom = 0;
     $scope.criterias.priceTo = 0;
-    $scope.error = "";
+    $scope.criterias.title = ''
+    $scope.error = '';
 
-    $scope.products = [
+    $scope.mockProducts = [
         {
             imageSource: "resources/powerbank_adata.jpg",
             title: "Powerbank A-Data",
@@ -53,10 +53,14 @@ app.controller('catalogueController', function ($scope) {
         },
     ];
 
-    $scope.filteredProducts = $scope.products;
+    $http.get(GET_OR_CREATE_PRODUCTS).success(function (response) {
+        $scope.filteredProducts = response;
+    });
 
     $scope.search = function () {
-
+        $http.post(GET_PRODUCT_BY_CRITERIAS, $scope.criterias).success(function (response) {
+            $scope.filteredProducts = response;
+        });
     }
 
 

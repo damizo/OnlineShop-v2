@@ -1,5 +1,7 @@
 package com.shoponline.model.entity;
 
+import lombok.Data;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -8,6 +10,7 @@ import javax.persistence.Entity;
  */
 @Entity
 @DiscriminatorValue(value = "SUPER_USER")
+@Data
 public class SuperUser extends User {
 
 }

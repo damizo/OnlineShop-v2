@@ -1,13 +1,18 @@
 /**
  * Created by dami on 2016-12-12.
  */
-app.controller('registrationController', function ($scope) {
+app.controller('registrationController', function ($scope, $http, USER_REGISTRATION) {
 
     init();
 
 
     $scope.createUser = function () {
-        console.log($scope.user);
+
+        $http.post(USER_REGISTRATION, $scope.user).success(function (data) {
+            console.log(data);
+        }).error(function (data) {
+            console.log(data);
+        })
     }
 
     function init() {

@@ -1,13 +1,13 @@
 package com.shoponline.model.dto;
 
-import org.springframework.stereotype.Service;
-
+import lombok.Data;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Damian on 2017-02-10.
  */
+@Data
 public class ProductCriteriaDTO implements Serializable{
 
     private Boolean priceSorting;
@@ -20,49 +20,4 @@ public class ProductCriteriaDTO implements Serializable{
 
     private String title;
 
-    public Boolean getPriceSorting() {
-        return priceSorting;
-    }
-
-    public void setPriceSorting(Boolean priceSorting) {
-        if(priceSorting == null){
-            priceSorting = Boolean.FALSE;
-        }
-        this.priceSorting = priceSorting;
-    }
-
-    public Boolean getRatingSorting() {
-        if(ratingSorting == null){
-            ratingSorting = Boolean.FALSE;
-        }
-        return ratingSorting;
-    }
-
-    public void setRatingSorting(Boolean ratingSorting) {
-        this.ratingSorting = ratingSorting;
-    }
-
-    public BigDecimal getPriceFrom() {
-        return priceFrom;
-    }
-
-    public void setPriceFrom(BigDecimal priceFrom) {
-        this.priceFrom = priceFrom;
-    }
-
-    public BigDecimal getPriceTo() {
-        return priceTo;
-    }
-
-    public void setPriceTo(BigDecimal priceTo) {
-        this.priceTo = priceTo;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

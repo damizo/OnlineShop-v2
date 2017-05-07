@@ -1,17 +1,20 @@
 package com.shoponline.service;
 
 import com.shoponline.model.dto.ProductCriteriaDTO;
-import com.shoponline.model.dto.ProductsDTO;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+import com.shoponline.model.dto.ProductDTO;
+import com.shoponline.model.entity.Product;
 
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Damian on 2017-02-10.
  */
 public interface ProductService {
 
-    ProductsDTO fetchProducts(String encodedJson);
+    Set<ProductDTO> fetchProducts(ProductCriteriaDTO productCriteriaDTO);
 
+    Product create(ProductDTO productDTO);
+
+    List<ProductDTO> fetchProducts();
 }

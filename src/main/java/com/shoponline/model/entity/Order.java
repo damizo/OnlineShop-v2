@@ -1,5 +1,8 @@
 package com.shoponline.model.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,34 +14,21 @@ import java.util.List;
  */
 @Entity
 @Table(name = "orders")
+@Getter
+@Setter
 public class Order extends BaseEntity{
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "order_products", joinColumns = {
             @JoinColumn(name = "order_id", nullable = false, updatable = false)},
             inverseJoinColumns = {
                     @JoinColumn(name = "product_id",
                             nullable = false, updatable = false)
             })
-    private List<Product> products = Collections.emptyList();
+    private List<Product> products = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }

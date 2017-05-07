@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by dami on 2016-12-11.
  */
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/users")
 public class  UserController {

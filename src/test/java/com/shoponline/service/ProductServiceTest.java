@@ -68,8 +68,6 @@ public class ProductServiceTest extends BaseServiceTest {
                 .superAdminKey(CryptoUtils.SUPER_USER_KEY)
                 .build();
 
-        Mockito.when(productService.create(productDTO)).thenReturn(product);
-
         Assert.assertEquals(product, productService.create(productDTO));
     }
 
@@ -82,8 +80,6 @@ public class ProductServiceTest extends BaseServiceTest {
                 .currency(product.getMainCurrency())
                 .superAdminKey(CryptoUtils.SUPER_USER_KEY)
                 .build();
-
-        Mockito.when(productService.create(productDTO)).thenReturn(product);
 
         Assert.assertEquals(product, productService.create(productDTO));
     }
@@ -110,7 +106,7 @@ public class ProductServiceTest extends BaseServiceTest {
 
     @Test
     public void shouldReturnAllProducts() {
-        Mockito.when(this.productService.fetchProducts()).thenReturn(MockDatabase.PRODUCTS_DTO);
+        Mockito.when(productRepository.findAll()).thenReturn(MockDatabase.PRODUCTS_ENTITIES);
 
         List<ProductDTO> products = productService.fetchProducts();
 

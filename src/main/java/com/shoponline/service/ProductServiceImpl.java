@@ -82,6 +82,9 @@ public class ProductServiceImpl extends BaseService implements ProductService {
             productDTO.setQuantity(product.getQuantity());
             productDTO.setCurrency(product.getMainCurrency());
             productDTO.setTitle(product.getTitle());
+            productDTO.setQuantity(product.getQuantity());
+            productDTO.setCurrency(product.getMainCurrency());
+            productDTO.setPrice(product.getPrice());
             productDTO.setImageSource(product.getImageSource());
             productDTO.setReferenceNumber(product.getReferenceNumber());
             products.add(productDTO);

@@ -27,6 +27,7 @@ public class ProductControllerTest  extends BaseControllerTest {
     public void shouldGetAllProducts() throws Exception {
         Mockito.when(this.productService.fetchProducts()).thenReturn(MockDatabase.PRODUCTS_DTO);
 
+
         this.mockMvc.perform(MockMvcRequestBuilders.get("/products"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(getGsonInstance().toJson(MockDatabase.PRODUCTS_DTO)));

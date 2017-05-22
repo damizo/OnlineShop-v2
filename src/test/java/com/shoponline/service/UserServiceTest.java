@@ -68,8 +68,6 @@ public class UserServiceTest extends BaseServiceTest {
     public void shouldAuthorizeUser(){
         given(this.userRepository.findByUserNameAndPassword(userCredentialsDTO.getEmail(), CryptoUtils.SHA256(userCredentialsDTO.getPassword())))
                 .willReturn(customer);
-        given(this.userService.isAuthorized(userCredentialsDTO))
-                .willReturn(userCredentialsDTO);
 
         Assert.assertNotNull(this.userService.isAuthorized(userCredentialsDTO));
     }

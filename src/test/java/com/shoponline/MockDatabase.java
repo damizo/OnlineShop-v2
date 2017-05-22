@@ -3,6 +3,7 @@ package com.shoponline;
 import com.shoponline.model.dto.ProductDTO;
 import com.shoponline.model.dto.UserCredentialsDTO;
 import com.shoponline.model.entity.*;
+import com.shoponline.model.enums.CurrencyType;
 import com.shoponline.model.enums.UserRole;
 import com.shoponline.utils.CryptoUtils;
 import org.assertj.core.util.Sets;
@@ -28,17 +29,21 @@ public class MockDatabase {
     );
 
     public static final List<ProductDTO> PRODUCTS_DTO = Arrays.asList(
-            ProductDTO.builder().referenceNumber("P00001").price(new BigDecimal(1000)).title("Nokia")
-                    .quantity(7)
+            ProductDTO.builder().referenceNumber("P00001").price(new BigDecimal(5000)).title("Sony Xperia")
+                    .quantity(3)
+                    .currency(CurrencyType.PLN)
                     .build(),
-            ProductDTO.builder().referenceNumber("P00002").price(new BigDecimal(5000)).title("iPhone")
+            ProductDTO.builder().referenceNumber("P00002").price(new BigDecimal(2000)).title("iPhone 3S")
                     .quantity(2)
+                    .currency(CurrencyType.PLN)
                     .build(),
-            ProductDTO.builder().referenceNumber("P00003").price(new BigDecimal(500)).title("Alcatel")
+            ProductDTO.builder().referenceNumber("P00003").price(new BigDecimal(1000)).title("Samsung TV")
+                    .quantity(7)
+                    .currency(CurrencyType.PLN)
+                    .build(),
+            ProductDTO.builder().referenceNumber("P00004").price(new BigDecimal(500.50)).title("Toshiba HDD")
                     .quantity(5)
-                    .build(),
-            ProductDTO.builder().referenceNumber("P00004").price(new BigDecimal(10500)).title("Samsung")
-                    .quantity(1)
+                    .currency(CurrencyType.PLN)
                     .build()
     );
 

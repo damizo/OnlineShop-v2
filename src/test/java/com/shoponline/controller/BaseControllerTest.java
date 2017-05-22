@@ -1,6 +1,7 @@
 package com.shoponline.controller;
 
 import com.google.gson.Gson;
+import com.shoponline.repository.ProductRepository;
 import com.shoponline.repository.UserRepository;
 import com.shoponline.service.MessageService;
 import com.shoponline.service.ProductService;
@@ -23,6 +24,9 @@ public class BaseControllerTest {
 
     @MockBean
     protected UserRepository userRepository;
+
+    @MockBean
+    protected ProductRepository productRepository;
 
     protected static Gson gson = null;
 

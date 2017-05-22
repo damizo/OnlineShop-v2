@@ -22,12 +22,12 @@ public class  UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<UserCredentialsDTO> createUser(@RequestBody UserCredentialsDTO userCredentialsDTO) {
         return ResponseEntity.ok(userService.create(userCredentialsDTO));
     }
 
-    @RequestMapping(value = "/authorize", method = RequestMethod.POST)
+    @PostMapping(value = "/authorize")
     public ResponseEntity<UserCredentialsDTO> authorizeUser(@RequestBody UserCredentialsDTO userCredentialsDTO) {
         return ResponseEntity.ok(userService.isAuthorized(userCredentialsDTO));
     }

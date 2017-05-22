@@ -18,6 +18,10 @@ app.controller('authenticationController', function ($scope, validationService, 
         $('.absolute').slideToggle(1000);
     }
 
+    function saveCredentialsInCookies(vm) {
+
+    }
+
     $scope.executeLogIn = function () {
         var result = validationService.validateUser($scope.vm);
         if(result.statusType === 'ERROR'){
@@ -25,11 +29,18 @@ app.controller('authenticationController', function ($scope, validationService, 
         } else {
             $http.post(USER_AUTHORIZATION, $scope.vm).success(function (response) {
                 $location.path('/catalogue');
-                $('.absolute').slideToggle(1000);
+                hidePopupAndlClearFields();
+                saveCredentialsInCookies($scope.vm);
             }).error(function (data) {
                 $scope.error_message = data.message;
             })
         }
+    }
+
+    function hidePopupAndlClearFields() {
+        $('.absolute').slideToggle(1000);
+        $scope.vm = {};
+        $scope.error_message = '';
     }
 
 });

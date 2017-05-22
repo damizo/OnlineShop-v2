@@ -31,4 +31,17 @@ public class UserAspect extends BaseAspect{
 
         logger.info(LOG + "Someone is trying create user: " + sb.toString());
     }
+
+    @Before("execution(* com.shoponline.controller.UserController.authorizeUser(..))")
+    public void authorizeUserLog(JoinPoint joinPoint) {
+
+        StringBuilder sb = new StringBuilder();
+
+        Object[] signatureArgs = joinPoint.getArgs();
+        for (Object signatureArg: signatureArgs) {
+            sb.append(signatureArg.toString());
+        }
+
+        logger.info(LOG + "Someone is trying create user: " + sb.toString());
+    }
 }

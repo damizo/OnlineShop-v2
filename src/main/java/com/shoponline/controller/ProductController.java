@@ -22,17 +22,17 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @RequestMapping(value = "/criteria", method = RequestMethod.POST)
+    @PostMapping(value = "/criteria")
     public ResponseEntity<Collection<ProductDTO>> getProductsByCriteria(@RequestBody ProductCriteriaDTO productCriteriaDTO){
         return ResponseEntity.ok(productService.fetchProducts(productCriteriaDTO));
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO){
         return ResponseEntity.ok(productService.create(productDTO));
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<Collection<ProductDTO>> fetchProducts(){
         return ResponseEntity.ok(productService.fetchProducts());
     }

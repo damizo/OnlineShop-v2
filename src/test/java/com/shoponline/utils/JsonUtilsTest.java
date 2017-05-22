@@ -17,25 +17,15 @@ import java.math.BigDecimal;
 public class JsonUtilsTest {
 
     @Test
-    public void test_encoding_decoding_base64_json_success(){
+    public void shouldDecodeOrEncodeDTO(){
         ProductCriteriaDTO beforeEncodeDTO = getProductCriteriaDTO();
         String encodedJson = JsonUtils.encodeBase64(beforeEncodeDTO);
 
         ProductCriteriaDTO afterDecodeDTO = JsonUtils.decodeBase64(encodedJson);
 
-        Assert.assertTrue(EqualsBuilder.reflectionEquals(beforeEncodeDTO,afterDecodeDTO));
+        Assert.assertEquals(beforeEncodeDTO,afterDecodeDTO);
     }
 
-    @Test
-    public void test_encoding_decoding_base64_json_failure(){
-        ProductCriteriaDTO beforeEncodeDTO = getProductCriteriaDTO();
-        String encodedJson = JsonUtils.encodeBase64(beforeEncodeDTO);
-
-        ProductCriteriaDTO afterDecodeDTO = JsonUtils.decodeBase64(encodedJson);
-        afterDecodeDTO.setTitle("Test 2");
-
-        Assert.assertFalse(EqualsBuilder.reflectionEquals(beforeEncodeDTO,afterDecodeDTO));
-    }
 
     private ProductCriteriaDTO getProductCriteriaDTO() {
         ProductCriteriaDTO beforeEncodeDTO = new ProductCriteriaDTO();
